@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.app</groupId>
-    <artifactId>file</artifactId>
+    <artifactId>dto</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>file</name>
-    <description>common service</description>
+    <name>dto</name>
+    <description>common service for dto</description>
 
     <properties>
         <java.version>1.8</java.version>
