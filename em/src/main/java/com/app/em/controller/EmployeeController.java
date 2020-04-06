@@ -14,7 +14,7 @@ import java.util.List;
 @Api(tags = {"EM - core service"})
 public class EmployeeController {
 
-    EmployService employService;
+    private EmployService employService;
 
     @Autowired
     public void setEmployService(EmployService employService) {
