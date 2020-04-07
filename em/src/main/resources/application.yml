@@ -1,10 +1,5 @@
 spring:
-  application:
-    name: em
   data:
     mongodb:
       uri: mongodb+srv://admin:admin@paperroll-ey7ud.mongodb.net/test?retryWrites=true&w=majority
       database: paper-roll
-
-server:
-  port: 8080
