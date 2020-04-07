@@ -43,6 +43,10 @@ public class TimesheetService {
         List<SummaryRecord> summaryRecords = new ArrayList<>();
         List<WeeklyRecord> weeklyRecords = getWeeklyRecordsByEmployeeId(employeeId);
 
+        if(weeklyRecords == null) {
+            return null;
+        }
+
         for(WeeklyRecord weeklyRecord : weeklyRecords) {
             summaryRecords.add(getSummaryRecord(weeklyRecord));
         }
