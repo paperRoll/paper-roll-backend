@@ -1,6 +1,6 @@
 package com.app.ts.service;
 
-import com.app.ts.domain.dto.SummaryRecord;
+import com.app.ts.domain.dto.SummaryRecordDTO;
 import com.app.ts.domain.Timesheet;
 import com.app.ts.domain.WeeklyRecord;
 import com.app.ts.repository.TimesheetRepository;
@@ -35,12 +35,9 @@ public class TimesheetService {
         return timesheet == null ? null : timesheet.getWeeklyRecords();
     }
 
-    public List<SummaryRecord> getSummaryRecordsByEmployeeId(int employeeId) {
+    public List<SummaryRecordDTO> getSummaryRecordsByEmployeeId(int employeeId) {
 
-        //TODO: uncomment this line when have DTO
-//        return DTOClient.getSummaryRecords(getWeeklyRecordsByEmployeeId(employeeId));
-
-        List<SummaryRecord> summaryRecords = new ArrayList<>();
+        List<SummaryRecordDTO> summaryRecordDTOs = new ArrayList<>();
         List<WeeklyRecord> weeklyRecords = getWeeklyRecordsByEmployeeId(employeeId);
 
         if(weeklyRecords == null) {
@@ -48,24 +45,22 @@ public class TimesheetService {
         }
 
         for(WeeklyRecord weeklyRecord : weeklyRecords) {
-            summaryRecords.add(getSummaryRecord(weeklyRecord));
+            summaryRecordDTOs.add(getSummaryRecord(weeklyRecord));
         }
 
-        return summaryRecords;
+        return summaryRecordDTOs;
     }
 
-    // this function should be at DTO service,
-    // but right now, just simplify include it directly here
-    private SummaryRecord getSummaryRecord(WeeklyRecord weeklyRecord) {
-        SummaryRecord summaryRecord = new SummaryRecord();
+    private SummaryRecordDTO getSummaryRecord(WeeklyRecord weeklyRecord) {
+        SummaryRecordDTO summaryRecordDTO = new SummaryRecordDTO();
 
-        summaryRecord.setWeekEnding(weeklyRecord.getWeekEnding());
-        summaryRecord.setTotalBillingHours(weeklyRecord.getTotalBillingHours());
-        summaryRecord.setTotalCompensatedHours(weeklyRecord.getTotalCompensatedHours());
-        summaryRecord.setSubmissionStatus(weeklyRecord.getSubmissionStatus());
-        summaryRecord.setApprovalStatus(weeklyRecord.getApprovalStatus());
-        summaryRecord.setComment(weeklyRecord.getComment());
+        summaryRecordDTO.setWeekEnding(weeklyRecord.getWeekEnding());
+        summaryRecordDTO.setTotalBillingHours(weeklyRecord.getTotalBillingHours());
+        summaryRecordDTO.setTotalCompensatedHours(weeklyRecord.getTotalCompensatedHours());
+        summaryRecordDTO.setSubmissionStatus(weeklyRecord.getSubmissionStatus());
+        summaryRecordDTO.setApprovalStatus(weeklyRecord.getApprovalStatus());
+        summaryRecordDTO.setComment(weeklyRecord.getComment());
 
-        return summaryRecord;
+        return summaryRecordDTO;
     }
 }

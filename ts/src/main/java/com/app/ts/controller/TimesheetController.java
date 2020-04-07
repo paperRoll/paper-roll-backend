@@ -1,9 +1,9 @@
 package com.app.ts.controller;
 
 import com.app.ts.domain.Timesheet;
-import com.app.ts.domain.WeeklyRecord;
-import com.app.ts.domain.dto.SummaryRecord;
-import com.app.ts.domain.res.SummaryResponse;
+import com.app.ts.domain.dto.SummaryRecordDTO;
+import com.app.ts.domain.req.SummaryFetchEMRequest;
+import com.app.ts.domain.res.SummaryFetchEMResponse;
 import com.app.ts.service.TimesheetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,18 +46,16 @@ public class TimesheetController {
     }
 
     @GetMapping("fetch-summary")
-    @ApiOperation(value = "Get the summary records for the current employee", response = Timesheet.class)
-    public ResponseEntity<SummaryResponse> getSummaryInfo(@RequestHeader("employeeId") Integer employeeId) {
+    @ApiOperation(value = "Get the summary records for the current employee", response = SummaryFetchEMResponse.class)
+    public ResponseEntity<SummaryFetchEMResponse> getSummaryRecords(@RequestBody SummaryFetchEMRequest summaryFetchEMRequest) {
 
-        if(employeeId == null) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        }
+        int employeeId = summaryFetchEMRequest.getEmployeeId();
 
-        SummaryResponse summaryResponse = new SummaryResponse();
-        List<SummaryRecord> summaryRecords = timesheetService.getSummaryRecordsByEmployeeId(employeeId);
+        SummaryFetchEMResponse summaryFetchEMResponse = new SummaryFetchEMResponse();
+        List<SummaryRecordDTO> summaryRecordDTOs = timesheetService.getSummaryRecordsByEmployeeId(employeeId);
 
-        summaryResponse.setSummaryRecords(summaryRecords);
+        summaryFetchEMResponse.setSummaryRecordDTOs(summaryRecordDTOs);
 
-        return new ResponseEntity<>(summaryResponse, HttpStatus.OK);
+        return new ResponseEntity<>(summaryFetchEMResponse, HttpStatus.OK);
     }
 }

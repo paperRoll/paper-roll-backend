@@ -1,6 +1,6 @@
-package com.app.ts.domain.res;
+package com.app.summary.domain.res;
 
-import com.app.ts.domain.dto.SummaryRecord;
+import com.app.summary.domain.SummaryRecord;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SummaryResponse {
+public class SummaryFetchResponse {
 
     private List<SummaryRecord> summaryRecords;
+
 }
