@@ -2,8 +2,8 @@ package com.app.ts.controller;
 
 import com.app.ts.domain.Timesheet;
 import com.app.ts.domain.dto.SummaryRecordDTO;
-import com.app.ts.domain.req.SummaryFetchEMRequest;
-import com.app.ts.domain.res.SummaryFetchEMResponse;
+import com.app.ts.domain.req.SummaryFetchTSRequest;
+import com.app.ts.domain.res.SummaryFetchTSResponse;
 import com.app.ts.service.TimesheetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,16 +43,16 @@ public class TimesheetController {
     }
 
     @PostMapping("fetch-summary")
-    @ApiOperation(value = "Get the summary records for the current employee", response = SummaryFetchEMResponse.class)
-    public ResponseEntity<SummaryFetchEMResponse> getSummaryRecords(@RequestBody SummaryFetchEMRequest summaryFetchEMRequest) {
+    @ApiOperation(value = "Get the summary records for the current employee", response = SummaryFetchTSResponse.class)
+    public ResponseEntity<SummaryFetchTSResponse> getSummaryRecords(@RequestBody SummaryFetchTSRequest summaryFetchTSRequest) {
 
-        int employeeId = summaryFetchEMRequest.getEmployeeId();
+        int employeeId = summaryFetchTSRequest.getEmployeeId();
 
-        SummaryFetchEMResponse summaryFetchEMResponse = new SummaryFetchEMResponse();
+        SummaryFetchTSResponse summaryFetchTSResponse = new SummaryFetchTSResponse();
         List<SummaryRecordDTO> summaryRecordDTOs = timesheetService.getSummaryRecordsByEmployeeId(employeeId);
 
-        summaryFetchEMResponse.setSummaryRecordDTOs(summaryRecordDTOs);
+        summaryFetchTSResponse.setSummaryRecordDTOs(summaryRecordDTOs);
 
-        return new ResponseEntity<>(summaryFetchEMResponse, HttpStatus.OK);
+        return new ResponseEntity<>(summaryFetchTSResponse, HttpStatus.OK);
     }
 }

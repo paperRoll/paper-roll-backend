@@ -1,4 +1,4 @@
-package com.app.summary.domain.req;
+package com.app.ts.domain.req;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SummaryFetchEMRequest {
+public class SummaryFetchTSRequest {
 
     private int employeeId;
 
