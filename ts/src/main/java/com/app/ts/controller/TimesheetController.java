@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,7 +42,7 @@ public class TimesheetController {
         return new ResponseEntity<>(timesheet, HttpStatus.OK);
     }
 
-    @GetMapping("fetch-summary")
+    @PostMapping("fetch-summary")
     @ApiOperation(value = "Get the summary records for the current employee", response = SummaryFetchEMResponse.class)
     public ResponseEntity<SummaryFetchEMResponse> getSummaryRecords(@RequestBody SummaryFetchEMRequest summaryFetchEMRequest) {
 

@@ -45,13 +45,13 @@ public class TimesheetService {
         }
 
         for(WeeklyRecord weeklyRecord : weeklyRecords) {
-            summaryRecordDTOs.add(getSummaryRecord(weeklyRecord));
+            summaryRecordDTOs.add(getSummaryRecordDTO(weeklyRecord));
         }
 
         return summaryRecordDTOs;
     }
 
-    private SummaryRecordDTO getSummaryRecord(WeeklyRecord weeklyRecord) {
+    private SummaryRecordDTO getSummaryRecordDTO(WeeklyRecord weeklyRecord) {
         SummaryRecordDTO summaryRecordDTO = new SummaryRecordDTO();
 
         summaryRecordDTO.setWeekEnding(weeklyRecord.getWeekEnding());
