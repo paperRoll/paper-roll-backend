@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Api(tags = {"Timesheet - composite service"})
+@RequestMapping("timesheet")
 public class TimesheetController {
     private TimesheetService timesheetService;
 
