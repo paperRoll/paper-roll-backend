@@ -1,12 +1,17 @@
 package com.app.ts.service;
 
+import com.app.ts.domain.DailyRecord;
+import com.app.ts.domain.dto.DailyRecordDTO;
 import com.app.ts.domain.dto.SummaryRecordDTO;
 import com.app.ts.domain.Timesheet;
 import com.app.ts.domain.WeeklyRecord;
+import com.app.ts.domain.res.WeeklyRecordResponse;
 import com.app.ts.repository.TimesheetRepository;
+import com.app.ts.util.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,10 +19,16 @@ import java.util.List;
 public class TimesheetService {
 
     private TimesheetRepository timesheetRepository;
+    private DateConverter dateConverter;
 
     @Autowired
     public void setTimesheetRepository(TimesheetRepository timesheetRepository) {
         this.timesheetRepository = timesheetRepository;
+    }
+
+    @Autowired
+    public void setDateConverter(DateConverter dateConverter) {
+        this.dateConverter = dateConverter;
     }
 
     public List<Timesheet> getAllTimesheet() {
@@ -62,5 +73,78 @@ public class TimesheetService {
         summaryRecordDTO.setComment(weeklyRecord.getComment());
 
         return summaryRecordDTO;
+    }
+
+    public WeeklyRecordResponse getWeeklyRecords(int employeeId, String weekEnding) {
+        Timesheet timesheet = findTimesheetByEmployeeId(employeeId);
+        if (timesheet == null) {
+            return null;
+        }
+
+        List<WeeklyRecord> weeklyRecords = timesheet.getWeeklyRecords();
+
+        for (WeeklyRecord weeklyRecord : weeklyRecords) {
+            if (weeklyRecord.getWeekEnding().equals(weekEnding)) {
+                return getDailyRecordsByWeekEnding(weeklyRecord);
+            }
+        }
+
+        return getDailyRecordsByTemplate(timesheet.getDefaultTemplate(), weekEnding);
+    }
+
+    private WeeklyRecordResponse getDailyRecordsByTemplate(List<DailyRecord> defaultTemplate, String weekEnding) {
+        WeeklyRecordResponse weeklyRecordResponse = new WeeklyRecordResponse();
+
+        List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
+
+        List<String> dates = dateConverter.getDatesFromWeekEnding(weekEnding, defaultTemplate.size());
+
+        for (int i = 0; i < defaultTemplate.size(); i++) {
+            DailyRecordDTO dailyRecordDTO = new DailyRecordDTO();
+
+            dailyRecordDTO.setDate(dates.get(i));
+            dailyRecordDTO.setDay(defaultTemplate.get(i).getDay());
+            dailyRecordDTO.setStartTime(defaultTemplate.get(i).getStartTime());
+            dailyRecordDTO.setEndTime(defaultTemplate.get(i).getEndTime());
+            dailyRecordDTO.setIfFloating(defaultTemplate.get(i).isIfFloating());
+            dailyRecordDTO.setIfHoliday(defaultTemplate.get(i).isIfHoliday());
+            dailyRecordDTO.setIfVacation(defaultTemplate.get(i).isIfVacation());
+
+            dailyRecordDTOS.add(dailyRecordDTO);
+        }
+
+        weeklyRecordResponse.setDailyRecordDTOList(dailyRecordDTOS);
+        weeklyRecordResponse.setTotalBillingHours(0);
+        weeklyRecordResponse.setTotalCompensatedHours(0);
+        return weeklyRecordResponse;
+    }
+
+    private WeeklyRecordResponse getDailyRecordsByWeekEnding(WeeklyRecord weeklyRecord) {
+        WeeklyRecordResponse weeklyRecordResponse = new WeeklyRecordResponse();
+        List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
+        List<DailyRecord> dailyRecords = weeklyRecord.getDailyRecords();
+
+        int totalBillingHours = weeklyRecord.getTotalBillingHours();
+        int totalCompensatedHours = weeklyRecord.getTotalCompensatedHours();
+
+        for (DailyRecord dailyRecord : dailyRecords) {
+            DailyRecordDTO dailyRecordDTO = new DailyRecordDTO();
+
+            dailyRecordDTO.setDate(dailyRecord.getDate());
+            dailyRecordDTO.setDay(dailyRecord.getDay());
+            dailyRecordDTO.setStartTime(dailyRecord.getStartTime());
+            dailyRecordDTO.setEndTime(dailyRecord.getEndTime());
+            dailyRecordDTO.setIfFloating(dailyRecord.isIfFloating());
+            dailyRecordDTO.setIfHoliday(dailyRecord.isIfHoliday());
+            dailyRecordDTO.setIfVacation(dailyRecord.isIfVacation());
+
+            dailyRecordDTOS.add(dailyRecordDTO);
+        }
+
+        weeklyRecordResponse.setDailyRecordDTOList(dailyRecordDTOS);
+        weeklyRecordResponse.setTotalBillingHours(totalBillingHours);
+        weeklyRecordResponse.setTotalCompensatedHours(totalCompensatedHours);
+
+        return weeklyRecordResponse;
     }
 }

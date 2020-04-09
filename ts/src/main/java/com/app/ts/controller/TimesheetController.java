@@ -1,9 +1,12 @@
 package com.app.ts.controller;
 
 import com.app.ts.domain.Timesheet;
+import com.app.ts.domain.dto.DailyRecordDTO;
 import com.app.ts.domain.dto.SummaryRecordDTO;
 import com.app.ts.domain.req.SummaryFetchTSRequest;
+import com.app.ts.domain.req.WeeklyRecordRequest;
 import com.app.ts.domain.res.SummaryFetchTSResponse;
+import com.app.ts.domain.res.WeeklyRecordResponse;
 import com.app.ts.service.TimesheetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,5 +57,19 @@ public class TimesheetController {
         summaryFetchTSResponse.setSummaryRecordDTOs(summaryRecordDTOs);
 
         return new ResponseEntity<>(summaryFetchTSResponse, HttpStatus.OK);
+    }
+
+    @PostMapping("fetch-weekly-record")
+    public ResponseEntity<WeeklyRecordResponse> getWeeklyRecord(@RequestBody WeeklyRecordRequest weeklyRecordRequest) {
+        int employeeId = weeklyRecordRequest.getEmployeeId();
+        String weekEnding = weeklyRecordRequest.getWeekEnding();
+
+        WeeklyRecordResponse weeklyRecordResponse = timesheetService.getWeeklyRecords(employeeId, weekEnding);
+
+        if (weeklyRecordResponse == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(weeklyRecordResponse, HttpStatus.OK);
     }
 }
