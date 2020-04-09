@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: profile
+  profiles:
+    active: develop
+  cloud:
+    config:
+      uri: http://localhost:1010
+      label: develop

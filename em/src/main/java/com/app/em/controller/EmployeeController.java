@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class EmployeeController {
         return employService.getAllEmployee();
     }
 
-    @GetMapping("fetch")
+    @GetMapping("fetch-employee")
     @ApiOperation(value = "Get the employee information for the current employee", response = Employee.class)
     public ResponseEntity<Employee> getEmployeeInfo(@RequestHeader("employeeId") Integer employeeId) {
 
@@ -43,7 +42,7 @@ public class EmployeeController {
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
-    @GetMapping("update")
+    @GetMapping("update-employee")
     @ApiOperation(value = "update information for the current employee to db")
     public ResponseEntity<String> updateEmployeeInfo(
             @RequestHeader("employeeId") Integer employeeId,
