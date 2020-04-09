@@ -1,6 +1,9 @@
-package com.app.timesheet.domain.dto;
+package com.app.ts.domain.res;
 
+import com.app.ts.domain.dto.DailyRecordDTO;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -8,16 +11,13 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SummaryRecordDTO {
+public class WeeklyRecordTSResponse {
+
     private String weekEnding;
 
     private int totalBillingHours;
 
     private int totalCompensatedHours;
 
-    private String submissionStatus;
-
-    private String approvalStatus;
-
-    private String comment;
+    private List<DailyRecordDTO> dailyRecordDTOList;
 }

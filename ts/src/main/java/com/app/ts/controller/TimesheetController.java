@@ -1,12 +1,11 @@
 package com.app.ts.controller;
 
 import com.app.ts.domain.Timesheet;
-import com.app.ts.domain.dto.DailyRecordDTO;
 import com.app.ts.domain.dto.SummaryRecordDTO;
 import com.app.ts.domain.req.SummaryFetchTSRequest;
-import com.app.ts.domain.req.WeeklyRecordRequest;
+import com.app.ts.domain.req.WeeklyRecordTSRequest;
 import com.app.ts.domain.res.SummaryFetchTSResponse;
-import com.app.ts.domain.res.WeeklyRecordResponse;
+import com.app.ts.domain.res.WeeklyRecordTSResponse;
 import com.app.ts.service.TimesheetService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,16 +59,17 @@ public class TimesheetController {
     }
 
     @PostMapping("fetch-weekly-record")
-    public ResponseEntity<WeeklyRecordResponse> getWeeklyRecord(@RequestBody WeeklyRecordRequest weeklyRecordRequest) {
-        int employeeId = weeklyRecordRequest.getEmployeeId();
-        String weekEnding = weeklyRecordRequest.getWeekEnding();
+    @ApiOperation(value = "Get the weekly record for current date", response = WeeklyRecordTSResponse.class)
+    public ResponseEntity<WeeklyRecordTSResponse> getWeeklyRecord(@RequestBody WeeklyRecordTSRequest weeklyRecordTSRequest) {
+        int employeeId = weeklyRecordTSRequest.getEmployeeId();
+        String weekEnding = weeklyRecordTSRequest.getWeekEnding();
 
-        WeeklyRecordResponse weeklyRecordResponse = timesheetService.getWeeklyRecords(employeeId, weekEnding);
+        WeeklyRecordTSResponse weeklyRecordTSResponse = timesheetService.getWeeklyRecords(employeeId, weekEnding);
 
-        if (weeklyRecordResponse == null) {
+        if (weeklyRecordTSResponse == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(weeklyRecordResponse, HttpStatus.OK);
+        return new ResponseEntity<>(weeklyRecordTSResponse, HttpStatus.OK);
     }
 }

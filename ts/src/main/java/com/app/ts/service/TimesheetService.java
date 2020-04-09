@@ -5,13 +5,12 @@ import com.app.ts.domain.dto.DailyRecordDTO;
 import com.app.ts.domain.dto.SummaryRecordDTO;
 import com.app.ts.domain.Timesheet;
 import com.app.ts.domain.WeeklyRecord;
-import com.app.ts.domain.res.WeeklyRecordResponse;
+import com.app.ts.domain.res.WeeklyRecordTSResponse;
 import com.app.ts.repository.TimesheetRepository;
 import com.app.ts.util.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class TimesheetService {
         return summaryRecordDTO;
     }
 
-    public WeeklyRecordResponse getWeeklyRecords(int employeeId, String weekEnding) {
+    public WeeklyRecordTSResponse getWeeklyRecords(int employeeId, String weekEnding) {
         Timesheet timesheet = findTimesheetByEmployeeId(employeeId);
         if (timesheet == null) {
             return null;
@@ -92,8 +91,8 @@ public class TimesheetService {
         return getDailyRecordsByTemplate(timesheet.getDefaultTemplate(), weekEnding);
     }
 
-    private WeeklyRecordResponse getDailyRecordsByTemplate(List<DailyRecord> defaultTemplate, String weekEnding) {
-        WeeklyRecordResponse weeklyRecordResponse = new WeeklyRecordResponse();
+    private WeeklyRecordTSResponse getDailyRecordsByTemplate(List<DailyRecord> defaultTemplate, String weekEnding) {
+        WeeklyRecordTSResponse weeklyRecordTSResponse = new WeeklyRecordTSResponse();
 
         List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
 
@@ -113,14 +112,14 @@ public class TimesheetService {
             dailyRecordDTOS.add(dailyRecordDTO);
         }
 
-        weeklyRecordResponse.setDailyRecordDTOList(dailyRecordDTOS);
-        weeklyRecordResponse.setTotalBillingHours(0);
-        weeklyRecordResponse.setTotalCompensatedHours(0);
-        return weeklyRecordResponse;
+        weeklyRecordTSResponse.setDailyRecordDTOList(dailyRecordDTOS);
+        weeklyRecordTSResponse.setTotalBillingHours(0);
+        weeklyRecordTSResponse.setTotalCompensatedHours(0);
+        return weeklyRecordTSResponse;
     }
 
-    private WeeklyRecordResponse getDailyRecordsByWeekEnding(WeeklyRecord weeklyRecord) {
-        WeeklyRecordResponse weeklyRecordResponse = new WeeklyRecordResponse();
+    private WeeklyRecordTSResponse getDailyRecordsByWeekEnding(WeeklyRecord weeklyRecord) {
+        WeeklyRecordTSResponse weeklyRecordTSResponse = new WeeklyRecordTSResponse();
         List<DailyRecordDTO> dailyRecordDTOS = new ArrayList<>();
         List<DailyRecord> dailyRecords = weeklyRecord.getDailyRecords();
 
@@ -141,10 +140,10 @@ public class TimesheetService {
             dailyRecordDTOS.add(dailyRecordDTO);
         }
 
-        weeklyRecordResponse.setDailyRecordDTOList(dailyRecordDTOS);
-        weeklyRecordResponse.setTotalBillingHours(totalBillingHours);
-        weeklyRecordResponse.setTotalCompensatedHours(totalCompensatedHours);
+        weeklyRecordTSResponse.setDailyRecordDTOList(dailyRecordDTOS);
+        weeklyRecordTSResponse.setTotalBillingHours(totalBillingHours);
+        weeklyRecordTSResponse.setTotalCompensatedHours(totalCompensatedHours);
 
-        return weeklyRecordResponse;
+        return weeklyRecordTSResponse;
     }
 }

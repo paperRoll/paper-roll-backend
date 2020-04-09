@@ -4,21 +4,37 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Component
 public class DateConverter {
 
-    // function
-    // take selected date
-    // return weekEnding date
-
-    // function
-    // take weekEnding date
-    // return list of date -> create default template
     public List<String> getDatesFromWeekEnding(String weekEnding, int offset) {
-        return (Arrays.asList("2018-04-25", "2018-04-26", "2018-04-27", "2018-04-28", "2018-04-29", "2018-04-30", "2018-04-31"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = null;
+        try {
+            date = sdf.parse(weekEnding);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        List<String> weekdayList = new ArrayList<>();
+
+        DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+        for (int i = 0; i < offset; i++) {
+            weekdayList.add(dateformat.format(calendar.getTime()));
+            calendar.add(Calendar.DATE, -1);
+        }
+
+        Collections.reverse(weekdayList);
+        return weekdayList;
     }
 }

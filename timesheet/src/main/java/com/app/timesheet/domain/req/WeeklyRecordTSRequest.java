@@ -8,6 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SummaryFetchTSRequest {
+public class WeeklyRecordTSRequest {
+
     private int employeeId;
+
+    private String weekEnding;
 }

@@ -1,6 +1,7 @@
-package com.app.ts.domain.res;
+package com.app.timesheet.domain.res;
 
-import com.app.ts.domain.dto.DailyRecordDTO;
+import com.app.timesheet.domain.DailyRecord;
+import com.app.timesheet.domain.dto.DailyRecordDTO;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class WeeklyRecordResponse {
+public class WeeklyRecordTSResponse {
 
     private String weekEnding;
 

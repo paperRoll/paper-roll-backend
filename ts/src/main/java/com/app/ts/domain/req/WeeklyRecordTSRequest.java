@@ -1,4 +1,4 @@
-package com.app.timesheet.domain.req;
+package com.app.ts.domain.req;
 
 import lombok.*;
 
@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class WeeklyRecordRequest {
+public class WeeklyRecordTSRequest {
 
     private int employeeId;
 
