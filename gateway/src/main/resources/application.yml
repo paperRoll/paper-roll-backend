@@ -1,0 +1,29 @@
+server:
+  port: 3001
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: summary
+          uri: lb://summary
+          predicates:
+            - Path=/summary/**
+        - id: timesheet
+          uri: lb://timesheet
+          predicates:
+            - Path=/timesheet/**
+        - id: profile
+          uri: lb://profile
+          predicates:
+            - Path=/profile/**
