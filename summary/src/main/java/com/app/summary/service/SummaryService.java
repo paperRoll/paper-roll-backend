@@ -3,9 +3,8 @@ package com.app.summary.service;
 import com.app.summary.client.TSClient;
 import com.app.summary.domain.SummaryRecord;
 import com.app.summary.domain.dto.SummaryRecordDTO;
-import com.app.summary.domain.req.SummaryFetchEMRequest;
-import com.app.summary.domain.res.SummaryFetchEMResponse;
-import com.app.summary.domain.res.SummaryFetchResponse;
+import com.app.summary.domain.req.SummaryFetchTSRequest;
+import com.app.summary.domain.res.SummaryFetchTSResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,14 +23,14 @@ public class SummaryService {
 
     public List<SummaryRecord> getSummaryRecords(int employeeId) {
 
-        SummaryFetchEMRequest summaryFetchEMRequest = SummaryFetchEMRequest.builder()
+        SummaryFetchTSRequest summaryFetchTSRequest = SummaryFetchTSRequest.builder()
                 .employeeId(employeeId)
                 .build();
 
-        SummaryFetchEMResponse summaryFetchEMResponse = tsClient.getSummaryRecords(summaryFetchEMRequest);
+        SummaryFetchTSResponse summaryFetchTSResponse = tsClient.getSummaryRecords(summaryFetchTSRequest);
 
         List<SummaryRecord> summaryRecords = new ArrayList<>();
-        List<SummaryRecordDTO> summaryRecordDTOs = summaryFetchEMResponse.getSummaryRecordDTOs();
+        List<SummaryRecordDTO> summaryRecordDTOs = summaryFetchTSResponse.getSummaryRecordDTOs();
 
         if(summaryRecordDTOs == null) {
             return null;

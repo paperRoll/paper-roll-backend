@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString
-public class SummaryFetchEMResponse {
+public class SummaryFetchTSResponse {
 
     private List<SummaryRecordDTO> summaryRecordDTOs;
 

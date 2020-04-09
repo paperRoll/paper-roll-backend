@@ -1,10 +1,8 @@
 package com.app.summary.client;
 
-import com.app.summary.domain.req.SummaryFetchEMRequest;
-import com.app.summary.domain.res.SummaryFetchEMResponse;
-import feign.RequestLine;
+import com.app.summary.domain.req.SummaryFetchTSRequest;
+import com.app.summary.domain.res.SummaryFetchTSResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface TSClient {
 
     @PostMapping("fetch-summary")
-    public SummaryFetchEMResponse getSummaryRecords(@RequestBody SummaryFetchEMRequest summaryFetchEMRequest);
+    public SummaryFetchTSResponse getSummaryRecords(@RequestBody SummaryFetchTSRequest summaryFetchTSRequest);
 
 }
